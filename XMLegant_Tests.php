@@ -281,7 +281,24 @@ class XMLegant_Tests extends XMLegant
         $x['encoding'] = 'UTF-8';
         $x['standalone'] = TRUE;
         unset($x['encoding']);
-        echo $x->toXML();
+        assert("\$x->toXML(FALSE) == '<books><book a=\"b0\"><title>Title 0</title><author>Author 0</author><isbn>isbn 0</isbn></book><book a=\"b1\"><title>Title 1</title><author>Author 1</author><isbn>isbn 1</isbn></book><book a=\"b2\"><title>Title 2</title><author>Author 2</author><isbn>isbn 2</isbn></book><book a=\"b3\"><title>Title 3</title><author>Author 3</author><isbn>isbn 3</isbn></book><book a=\"b4\"><title>Title 4</title><author>Author 4</author><isbn>isbn 4</isbn></book></books>';//{$x->toXML(FALSE)}");
+        
+    }
+    
+    function test_startTag()
+    {
+        $books = XMLegant::Create('books');
+        $books->book()->author("some author1")->title("some title1");
+        $books->book()->author("some author2")->title("some title2");
+        
+        assert("\$books->toXML(FALSE) == '<books><book><author>some author1</author><title>some title1</title></book><book><author>some author2</author><title>some title2</title></book></books>';//{\$books->toXML(FALSE)}");
+        
+    }
+    
+    function test_root()
+    {
+        $x = new XMLegant();
+        assert("\$x->a->b->c->getRoot() == \$x;");
     }
     
 }

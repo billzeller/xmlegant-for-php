@@ -42,9 +42,15 @@ class XMLegant implements ArrayAccess
         $this->attrs = $attrs;
     }
     
-    function Create()
+    function Create($firstChild = FALSE)
     {
-        return new XMLegant();
+        $x = new XMLegant();
+        if($firstChild == FALSE){
+            return $x;
+        }else{
+            return $x->addChild($firstChild);
+        }
+        
     }
     
     
@@ -83,6 +89,16 @@ class XMLegant implements ArrayAccess
         }
 
         return $this;
+    }
+    
+    function getRoot()
+    {
+        $node = $this;
+        while($node->getParent() != NULL){
+            $node = $node->getParent();
+        }
+        
+        return $node;
     }
     
     function getParent()
@@ -240,7 +256,7 @@ class XMLegant implements ArrayAccess
                 }
             }
         }else{
-            if(empty($value)){
+            if($value === FALSE){
                 $child->text = FALSE;
             }else{
                 $child->text = (string)$value;    
